@@ -103,6 +103,21 @@ public class PortalConfig extends RefreshableConfig {
     return result;
   }
 
+  public Set<Env> webHookSupportedEnvs() {
+    String[] configurations = getArrayProperty("webhook.supported.envs", null);
+
+    Set<Env> result = Sets.newHashSet();
+    if (configurations == null || configurations.length == 0) {
+      return result;
+    }
+
+    for (String env : configurations) {
+      result.add(Env.valueOf(env));
+    }
+
+    return result;
+  }
+
   public boolean isConfigViewMemberOnly(String env) {
     String[] configViewMemberOnlyEnvs = getArrayProperty("configView.memberOnly.envs", new String[0]);
 
@@ -208,6 +223,10 @@ public class PortalConfig extends RefreshableConfig {
     return getBooleanProperty(SystemRoleManagerService.MANAGE_APP_MASTER_LIMIT_SWITCH_KEY, false);
   }
 
+  public String getAdminServiceAccessTokens() {
+    return getValue("admin-service.access.tokens");
+  }
+
   /***
    * The following configurations are used in ctrip profile
    **/
@@ -272,6 +291,10 @@ public class PortalConfig extends RefreshableConfig {
 
   public String hermesServerAddress() {
     return getValue("hermes.server.address");
+  }
+
+  public String[] webHookUrls() {
+    return getArrayProperty("config.release.webhook.service.url", null);
   }
 
 }
